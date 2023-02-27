@@ -31,6 +31,6 @@ public class RoleDAOImpl implements RoleDAO {
     public Role getRoleByName(String role) {
         return entityManager.createQuery("select role from Role role where role.role =: role", Role.class)
                 .setParameter("role", role)
-                .getResultList().stream().findAny().orElse(null);
+                .getSingleResult();
     }
 }

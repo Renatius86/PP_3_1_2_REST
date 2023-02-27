@@ -6,10 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -20,17 +16,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "lastname")
+    private String lastname;
     @Column(name = "age")
-    @Min(value = 0, message = "Age should be greater than 0")
     private int age;
-    @Column(name = "email")
-    @NotEmpty(message = "Email should not be empty")
-    @Email(message = "Email should be valid")
+    @Column(name = "email", unique = true)
     private String email;
-
-    @Column(name = "username")
-    private String username;
-
     @Column(name = "password")
     private String password;
 
@@ -44,19 +39,21 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int age, String email, String username, String password, Set<Role> roles) {
+    public User(String name, String lastname, int age, String email, String password, Set<Role> roles) {
+        this.name = name;
+        this.lastname = lastname;
         this.age = age;
         this.email = email;
-        this.username = username;
         this.password = password;
         this.roles = roles;
     }
 
-    public User(int id, int age, String email, String username, String password, Set<Role> roles) {
+    public User(int id, String name, String lastname, int age, String email, String password, Set<Role> roles) {
         this.id = id;
+        this.name = name;
+        this.lastname = lastname;
         this.age = age;
         this.email = email;
-        this.username = username;
         this.password = password;
         this.roles = roles;
     }
@@ -86,11 +83,23 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     @Override
@@ -138,24 +147,13 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-                "age=" + age +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", age=" + age +
                 ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && age == user.age && Objects.equals(email, user.email) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, age, email, username, password, roles);
     }
 }

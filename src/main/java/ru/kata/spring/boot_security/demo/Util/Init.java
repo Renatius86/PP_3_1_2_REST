@@ -37,10 +37,14 @@ public class Init {
         userSet.add(roleUser);
 
 
-        User admin = new User(45, "admin@mail.ru", "admin", "admin", adminSet);
-        User user1 = new User(45, "user1@mail.ru", "user", "user", userSet);
+        User admin = new User("admin","admin", 45, "admin@mail.ru", "admin", adminSet);
+        User user1 = new User("user", "user", 45, "user@mail.ru", "user", userSet);
+        User user2 = new User("user", "user", 45, "user1@mail.ru", "user", userSet);
+        User user3 = new User("user", "user", 45, "user2@mail.ru", "user", userSet);
 
         userService.saveUser(admin);
         userService.saveUser(user1);
+        userService.saveUser(user2);
+        userService.saveUser(user3);
     }
 }
