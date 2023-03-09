@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/userPage")
-    public String currentUser(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
-        return "userPage";
+    @GetMapping("/users")
+    public String userPage(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("authUser", user);
+        return "users";
     }
 }

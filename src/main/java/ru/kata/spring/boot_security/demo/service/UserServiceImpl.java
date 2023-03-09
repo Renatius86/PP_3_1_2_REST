@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void editUser(int id, User user) {
+        user.setId(id);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userDAO.updateUser(user);
     }
